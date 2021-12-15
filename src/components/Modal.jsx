@@ -12,7 +12,7 @@ const Modal = ({
     const [error, setError] = useState(false);
 
     const [nombre, setNombre] = useState('');
-    const [cantidad, setCantidad] = useState(0);
+    const [cantidad, setCantidad] = useState('');
     const [categoria, setCategoria] = useState('');
 
     const ocultarModal = () => {
@@ -87,7 +87,7 @@ const Modal = ({
                         placeholder='Añade la cantidad del gasto'
                         id='cantidad'
                         value={cantidad}
-                        onChange={e => setCantidad(e.target.value)}
+                        onChange={e => setCantidad(Number(e.target.value))}
                     />
                 </div>
 
