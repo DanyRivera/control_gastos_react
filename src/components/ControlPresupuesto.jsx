@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import "react-circular-progressbar/dist/styles.css";
 
-const ControlPresupuesto = ({ presupuesto, gastos }) => {
+const ControlPresupuesto = ({ 
+    presupuesto, 
+    gastos,
+    setPresupuesto,
+    setGastos,
+    setIsValidPresupuesto
+}) => {
 
     const [porcentaje, setPorcentaje] = useState(0);
 
@@ -32,25 +38,43 @@ const ControlPresupuesto = ({ presupuesto, gastos }) => {
         })
     }
 
+    const handleResetApp = () => {
+        
+        const resultado = confirm('¿Deseas reiniciar presupuesto y gastos?');
+
+        if(resultado) {
+            setPresupuesto(0);
+            setGastos([]);
+            setIsValidPresupuesto(false);
+        }
+    }
+
     return (
         <div className="contenedor-presupuesto contenedor sombra dos-columnas">
             <div>
                 <CircularProgressbar
                     value={porcentaje}
                     styles={buildStyles({
-                        pathColor: '#3b82f6',
+                        pathColor: porcentaje > 100 ? '#dc2626' : '#3b82f6',
                         trailColor: '#f5f5f5',
                         pathTransitionDuration: 1,
-                        textColor: '#3b82f6'
+                        textColor: porcentaje > 100 ? '#dc2626' : '#3b82f6'
                     })}
                     text={`${porcentaje}% Gastado`}
                 />
             </div>
             <div className="contenido-presupuesto">
+                <button 
+                    className="reset-app"
+                    type="button"
+                    onClick={handleResetApp}
+                >
+                    Resetear App
+                </button>
                 <p>
                     <span>Presupuesto:</span> {formatearCantidad(presupuesto)}
                 </p>
-                <p>
+                <p className={`${disponible < 0 ? 'negativo' : ''}`}>
                     <span>Disponible:</span> {formatearCantidad(disponible)}
                 </p>
                 <p>
